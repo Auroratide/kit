@@ -15,7 +15,8 @@ export function split_headers(headers) {
 
 	headers.forEach((value, key) => {
 		if (key === 'set-cookie') {
-			m[key] = value.split(', ');
+			// @ts-expect-error (headers.raw() is non-standard)
+			m[key] = headers.raw()[key];
 		} else {
 			h[key] = value;
 		}

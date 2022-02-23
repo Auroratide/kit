@@ -48,4 +48,25 @@ test('multi-value headers', () => {
     });
 })
 
+test('multi-value cookies with expiry', () => {
+    const wednesday = new Date(1645650108262).toUTCString()
+    const thursday = new Date(1645736508262).toUTCString()
+
+    const headers = new Headers();
+    headers.append('Set-Cookie', `flavor=sugar; Expires=${wednesday}`);
+    headers.append('Set-Cookie', `diameter=6cm; Expires=${thursday}`);
+
+    const result = split_headers(headers);
+
+    assert.equal(result, {
+        headers: {},
+        multiValueHeaders: {
+            'set-cookie': [
+                `flavor=sugar; Expires=${wednesday}`,
+                `diameter=6cm; Expires=${thursday}`,
+            ],
+        },
+    });
+})
+
 test.run()
